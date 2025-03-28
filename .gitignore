@@ -76,4 +76,7 @@ crashlytics-build.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
 .DS_Store
-Assets/TextMesh Pro/Fonts
+/[Aa]ssets/TextMesh\ Pro/*
+/[Aa]ssets/NotoSansJP-Medium\ SDF.asset
+/[Aa]ssets/NotoSansJP-Medium\ SDF.asset.meta
+/[Aa]ssets/TextMesh\ Pro.meta
