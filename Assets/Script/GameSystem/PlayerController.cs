@@ -9,9 +9,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isReverced;
 
     [SerializeField] AccelarationDataReceiver receiver;
+    [SerializeField] GameSystem gameSystem;
     private float currentAngle;
     private float angleVelocity; 
     float smoothTime = 0.1f; 
+
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
     
 	//--------------------------------------------------
 
@@ -23,9 +27,15 @@ public class PlayerController : MonoBehaviour
         }
 	}
 
-	// 移動
-	void FixedUpdate()
+    void Start()
     {
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
+    }
+
+	// 移動
+	public void RotatableUpdate()
+    {   
         // var euler = receiver.Accelaration * rotatableRigion;
         float targetAngle = receiver.Accelaration.y * rotatableRigion;
         float changeAngle = receiver.Accelaration.x;
@@ -37,10 +47,17 @@ public class PlayerController : MonoBehaviour
         
         //Debug.Log(changeAngle);
         // 滑らかに回転角度を変化させる
+        // ゲーム開始とゲームクリア後に実行
         currentAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref angleVelocity, smoothTime);
-
+        
+        
         transform.rotation = Quaternion.Euler(0, 0, currentAngle);
-
+        
+        
+    }
+    public void StageSetUp(){
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
     }
 
 }

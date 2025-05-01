@@ -15,7 +15,7 @@ public abstract class DataReceiver_Base:MonoBehaviour
 	/// データ受信時の処理
 	/// </summary>
 	protected abstract void OnReceivedData();
-
+	
 	//--------------------------------------------------
 
 	private void Awake()

@@ -18,6 +18,7 @@ public class SerialHandler : MonoBehaviour
 
     [SerializeField, Tooltip("開かれるポートのボーレート")] int baudRate = 9600;
 
+    private static SerialHandler instance; // シングルトン用のインスタンス
     SerialPort serialPort;      // シリアルポート
 
     // thread
@@ -33,6 +34,16 @@ public class SerialHandler : MonoBehaviour
     // 開始時にポートを開く
     void Awake()
     {
+        ///ここから///
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        // このインスタンスを保持し、シーンが変わっても破棄されないようにする
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+        ///ここまで///
         Open();
     }
 
@@ -40,7 +51,7 @@ public class SerialHandler : MonoBehaviour
     {
         // 受け取ったら、受け取り時の処理を実行
         if(isNewMessageReceived) {
-             OnDataReceived();
+            OnDataReceived();
         }
 
         isNewMessageReceived = false;
@@ -57,6 +68,7 @@ public class SerialHandler : MonoBehaviour
 	// シリアルポートを開く
 	void Open()
     {
+        try{
         serialPort = new SerialPort(openedPortName, baudRate, Parity.None, 8, StopBits.One);        // ポートインスタンス作成
         serialPort.DtrEnable = false; // これを追加
         serialPort.RtsEnable = false;
@@ -68,6 +80,11 @@ public class SerialHandler : MonoBehaviour
         readingThread.Start();                                         // スレッド開始(読み込み)
 
         print("port was setuped.");
+        }catch (Exception e)
+        {
+        Debug.LogError("❌ Failed to open SerialPort: " + e.Message);
+        serialPort = null; // エラー発生時に `serialPort` を `null` にする
+        }
     }
 
     // シリアルポートを閉じる

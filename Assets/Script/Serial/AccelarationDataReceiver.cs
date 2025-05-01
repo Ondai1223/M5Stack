@@ -8,9 +8,23 @@ public class AccelarationDataReceiver : DataReceiver_Base
 	/// デバイスの加速度
 	/// </summary>
 	public Vector2 Accelaration { get; private set; }       
-
+    private static AccelarationDataReceiver instance;
     //--------------------------------------------------
 
+/**
+    private void Awake()
+    {
+        ///ここから///
+		if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject); 
+		///ここまで///
+    }
+    */
     // 受信
     protected override void OnReceivedData()
     {

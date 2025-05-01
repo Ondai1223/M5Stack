@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-public class TitleManager : MonoBehaviour
-{
-   [SerializeField] TitleMenu menu;
-    protected int num;
-    
 
-    // Update is called once per frame
-    void Update()
+public class TitleState : GameStateBase
+{
+    private int num;
+    public TitleState(GameSystem gameSystem) : base(gameSystem)
     {
+        
+    }
+   
+    public override void OnEnter()
+    {
+        Debug.Log("タイトルのOnEnter()");
+    }
+
+    public override void OnUpdate()
+    {
+
+        Debug.Log("タイトルのOnUpdate()");
         if(Input.GetKeyDown(KeyCode.DownArrow))
         {
             if(num < 2)
@@ -28,19 +35,22 @@ public class TitleManager : MonoBehaviour
             }
         }
 
-        menu.selectText(num);
+        Owner.UIManager.TitleSelectText(num);
 
         if(Input.GetKeyDown(KeyCode.Return))
         {
             if(num == 0)
             {
-                //ゲームシーンに遷移する
-                SceneManager.LoadScene("GameScene");
+                //ゲームシーンに遷移する(TitlePanelを非表示にする.)
+                Owner.UIManager.EnableTitlePanel(false);
+                Owner.ChangeState(Owner.PlaySt);
+                
             }
 
             if(num == 1)
             {
                 //設定画面表示
+                
             }
 
             if(num == 2)
@@ -53,6 +63,5 @@ public class TitleManager : MonoBehaviour
                 #endif
             }
         }
-        
     }
 }
