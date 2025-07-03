@@ -1,4 +1,4 @@
-#M5labyrinth
+# M5labyrinth
 
 ## M5Stackを使用したゲーム
 
