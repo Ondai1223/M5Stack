@@ -9,10 +9,12 @@ public class TitleState : GameStateBase
     {
         
     }
-   
+
     public override void OnEnter()
     {
         Debug.Log("タイトルのOnEnter()");
+        //Titleのサウンドを再生する
+        SoundManager.Instance.PlayBGM(BGMSoundData.BGM.Title);
     }
 
     public override void OnUpdate()
@@ -41,23 +43,29 @@ public class TitleState : GameStateBase
         {
             if(num == 0)
             {
+                //テキスト「はじめる」
                 //ゲームシーンに遷移する(TitlePanelを非表示にする.)
+                SoundManager.Instance.PlaySE(SESoundData.SE.Select);
                 Owner.UIManager.EnableTitlePanel(false);
                 Owner.ChangeState(Owner.PlaySt);
                 
             }
 
-            if(num == 1)
+            if (num == 1)
             {
+                //テキスト「せってい」
                 //設定画面表示
-                
+                SoundManager.Instance.PlaySE(SESoundData.SE.Select);
+
             }
 
             if(num == 2)
             {
+                //テキスト「やめる」
                 //ゲームを終了する
+                SoundManager.Instance.PlaySE(SESoundData.SE.Cancel);
                 #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+                UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
                 #else
                     Application.Quit();//ゲームプレイ終了
                 #endif

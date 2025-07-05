@@ -15,6 +15,8 @@ public class PlayState : GameStateBase
     public override void OnEnter()
     {
         Debug.Log("プレイのOnEnter()");
+        //ゲームプレイ中ようのサウンドを再生
+        SoundManager.Instance.PlayBGM(BGMSoundData.BGM.GamePlay);
         //ステージ,ボール,タイム,ゴール判定の初期化処理.それぞれのクラスからメソッドを実行
         Owner.Ball.BallSetUp();
         Owner.Stage.StageSetUp();
@@ -43,6 +45,7 @@ public class PlayState : GameStateBase
         if(Owner.goal.checkGoal )
         {
             Owner.UIManager.Comp = false;
+            SoundManager.Instance.PlaySE(SESoundData.SE.Goal);
             Owner.ChangeState(Owner.ResultSt);
         }
 
