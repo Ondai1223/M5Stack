@@ -6,7 +6,7 @@ using TMPro;
 
 public class PlayState : GameStateBase
 {
-   
+    bool hasPlayBGM;
      public PlayState(GameSystem gameSystem) : base(gameSystem)
     {
 
@@ -15,8 +15,8 @@ public class PlayState : GameStateBase
     public override void OnEnter()
     {
         Debug.Log("プレイのOnEnter()");
-        //ゲームプレイ中ようのサウンドを再生
-        SoundManager.Instance.PlayBGM(BGMSoundData.BGM.GamePlay);
+
+        hasPlayBGM = false;
         //ステージ,ボール,タイム,ゴール判定の初期化処理.それぞれのクラスからメソッドを実行
         Owner.Ball.BallSetUp();
         Owner.Stage.StageSetUp();
@@ -24,37 +24,49 @@ public class PlayState : GameStateBase
         Owner.goal.checkGoal = false;
         //初期位置を設定できたらカウントダウンをする.
         Owner.UIManager.Count();
-        
+        SoundManager.Instance.StopBGM();
     }
 
     public override void OnUpdate()
     {
-        if(Owner.UIManager.Comp)
-        {
-        //プレイ中の処理
-        // タイマーの更新
-        //ゴールしていない間タイマーが動いている
-        if (!Owner.goal.checkGoal)
-        {
-            Owner.Stage.RotatableUpdate();
-            Owner.ClearTime += Time.deltaTime;
-            Owner.ClearTimeText.text = "タイム： " + Owner.ClearTime.ToString("F2") + "s";
-        }
+        
+        if (Owner.UIManager.CountComp){
+            if (!hasPlayBGM)
+            {
+                //ゲームプレイ中用のサウンドを再生
+                SoundManager.Instance.PlayBGM(BGMSoundData.BGM.GamePlay);
+                hasPlayBGM = true;
+            }
+            
+        
 
-        //ゴールしたらゴールモーダルを表示するs
-        if(Owner.goal.checkGoal )
-        {
-            Owner.UIManager.Comp = false;
-            SoundManager.Instance.PlaySE(SESoundData.SE.Goal);
-            Owner.ChangeState(Owner.ResultSt);
-        }
+            //プレイ中の処理
+            // タイマーの更新
+            //ゴールしていない間タイマーが動いている
 
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Owner.Ball.respawn(Owner.respawn);
-        }
+            if (!Owner.goal.checkGoal)
+            {
 
+                Owner.Stage.RotatableUpdate();
+                Owner.ClearTime += Time.deltaTime;
+                Owner.ClearTimeText.text = "タイム： " + Owner.ClearTime.ToString("F2") + "s";
+            }
+
+            //ゴールResultStateに移動する
+            if (Owner.goal.checkGoal)
+            {
+                Owner.UIManager.CountComp = false;
+                SoundManager.Instance.PlaySE(SESoundData.SE.Goal);
+                Owner.ChangeState(Owner.ResultSt);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Owner.Ball.respawn(Owner.respawn);
+                SoundManager.Instance.PlaySE(SESoundData.SE.Respawn);
         }
+    }
+        
 
     }
 }

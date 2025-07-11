@@ -15,7 +15,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI ExitText;
     //カウントダウンText
     [SerializeField] TextMeshProUGUI CountText;
-    private bool complete = false;
+    //カウントダウンが完了したかどうか
+    private bool Countcomp = false;
     //Resultのtext
     [SerializeField] TextMeshProUGUI MenuText;
     [SerializeField] TextMeshProUGUI RestartText;
@@ -78,7 +79,7 @@ public class GameUIManager : MonoBehaviour
         ResultPanel.SetActive(enabled);
     }
 
-    public bool Comp{get => complete; set => complete = value;}
+    public bool CountComp{get => Countcomp; set => Countcomp = value;}
 
     public void Count()
     {
@@ -89,15 +90,19 @@ public class GameUIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         CountText.text = "３";
+        SoundManager.Instance.PlaySE(SESoundData.SE.Count);
         yield return new WaitForSeconds(1);
         CountText.text = "２";
+        SoundManager.Instance.PlaySE(SESoundData.SE.Count);
         yield return new WaitForSeconds(1);
         CountText.text = "１";
+        SoundManager.Instance.PlaySE(SESoundData.SE.Count);
         yield return new WaitForSeconds(1);
         CountText.text = "すたあと";
+        SoundManager.Instance.PlaySE(SESoundData.SE.Start);
         yield return new WaitForSeconds(1);
         CountText.text = " ";
-        complete = true;
+        Countcomp = true;
     }
 
 }

@@ -8,6 +8,8 @@ public class AccelarationDataReceiver : DataReceiver_Base
 	/// デバイスの加速度
 	/// </summary>
 	public Vector2 Accelaration { get; private set; }       
+    //reverseTrigger=
+    public float reverseTrigger { get; private set; }
     private static AccelarationDataReceiver instance;
     //--------------------------------------------------
 
@@ -33,6 +35,7 @@ public class AccelarationDataReceiver : DataReceiver_Base
         try {
             if (data.Length >= 2) {
                 // データ文字列からfloat型に変換して、ベクトルに適用
+
                 float x = float.Parse(data[0]);
                 float y = float.Parse(data[1]);
                 Debug.Log("Received Data: " + x + "," + y);

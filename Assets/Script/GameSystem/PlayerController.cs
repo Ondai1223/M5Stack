@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 	// 移動
 	public void RotatableUpdate()
     {   
-        // var euler = receiver.Accelaration * rotatableRigion;
+
         float targetAngle = receiver.Accelaration.y * rotatableRigion;
         float changeAngle = receiver.Accelaration.x;
         if(changeAngle < 0.0f)

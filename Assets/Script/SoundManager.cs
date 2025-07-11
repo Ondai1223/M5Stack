@@ -36,6 +36,21 @@ public class SoundManager : MonoBehaviour
         bgmAudioSource.clip = data.audioClip;
         bgmAudioSource.volume = data.volume * bgmMasterVolume * masterVolume;
         bgmAudioSource.Play();
+        Debug.Log(data + "再生中");
+    }
+
+    // BGMをストップする機能を追加
+    public void StopBGM()
+    {
+        if (bgmAudioSource.isPlaying)
+        {
+            bgmAudioSource.Stop();
+            Debug.Log("BGMを停止しました。");
+        }
+        else
+        {
+            Debug.Log("現在BGMは再生されていません。");
+        }
     }
 
 
@@ -67,11 +82,15 @@ public class BGMSoundData
 [System.Serializable]
 public class SESoundData
 {
+    // これがラベルになる
     public enum SE
     {
         Select,
         Goal,
-        Cancel, // これがラベルになる
+        Cancel,
+        Count,
+        Start,
+        Respawn,
     }
 
     public SE se;

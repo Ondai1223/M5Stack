@@ -20,7 +20,7 @@ public class TitleState : GameStateBase
     public override void OnUpdate()
     {
 
-        Debug.Log("タイトルのOnUpdate()");
+        //Debug.Log("タイトルのOnUpdate()");
         if(Input.GetKeyDown(KeyCode.DownArrow))
         {
             if(num < 2)
